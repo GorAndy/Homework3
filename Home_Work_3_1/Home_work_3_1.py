@@ -3,6 +3,7 @@ from urllib.parse import urlencode, urlparse
 import requests
 import json
 
+
 def get_status(user_id=None):
     """Получение статуса пользователя"""
     if user_id:
@@ -35,14 +36,29 @@ params = { 'access_token': access_token,
            'v': VERSION,
 }
 
-params['q'] = 'Андрей Гаврюшов'
-
-response = requests.get('https://api.vk.com/method/users.search', params)
-print(response.json())
-ll = response.json()
-lll = ll['response']['items']
-for _ in lll:
-
-    print(_['id'])
+# params['q'] = 'Андрей Гаврюшов'
+#
+# response = requests.get('https://api.vk.com/method/users.search', params)
+# print(response.json())
+# ll = response.json()
+# lll = ll['response']['items']
+# for _ in lll:
+#
+#     print(_['id'])
 
 # get_status()
+params['fields'] = 'nickname'
+# params['user_id'] = '310351456'
+response = requests.get('https://api.vk.com/method/friends.get', params)
+print(response.json())
+friends_list = response.json()['response']['items']
+print('Мои друзья:')
+friends_id_list = []
+for friend in friends_list:
+    friend.pop('online')
+    friend.pop('nickname')
+    friends_id_list.append(friend['id'])
+    print('{} {}'.format(friend['last_name'], friend['first_name']))
+print(friends_id_list)
+
+# Поиск общих друзей friends.getMutual c параметрами target_uid или target_uids - список id через запятую
