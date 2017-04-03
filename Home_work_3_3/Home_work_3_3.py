@@ -13,6 +13,7 @@ def find_file(path):
 
 
 def translate_file(file_in):
+    """Перевод текста из файла в строку"""
     with open(file_in) as f:
         file_read_in = f.read()
     response = requests.get(URL, params={'key': YANDEX_KEY, 'text': file_read_in, 'lang': lang_out})
@@ -21,6 +22,7 @@ def translate_file(file_in):
 
 
 def wrire_out(text_out):
+    """Запись текста в файл. Каждый раз новый перевод добавляется в конец файла"""
     file_out = os.path.join(path_out, 'file_out.txt')
     with open(file_out, 'a') as f:
         f.write(text_out)
